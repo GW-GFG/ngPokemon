@@ -1,15 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import {CommonModule} from '@angular/common';
+
 
 import { POKEMONS } from './mock-pokemon-list';
 import { Pokemon } from './pokemon';
 
+
+
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, CommonModule],
   templateUrl: './app.component.html',
-  styles: [],
+  // styles: [],
 })
 
 export class AppComponent implements OnInit {
@@ -28,7 +32,8 @@ export class AppComponent implements OnInit {
     const pokemon: Pokemon | undefined = this.pokemonList.find(pokemon => pokemon.id == pokemonId);
     if(pokemon) {
       console.log(`Vous avez cliqué sur le pokémon ${pokemon.name}`);
-      this.pokemonSelected = pokemon;;
+      this.pokemonSelected = pokemon;
+      console.log(JSON.stringify(pokemon))
     } else {
       console.log(`Oups, le pokémon n'est pas reconnu !`);
       this.pokemonSelected = pokemon;

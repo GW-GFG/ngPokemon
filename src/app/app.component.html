@@ -1,12 +1,42 @@
-<h1>Ma liste Angular de pokémon !</h1>
+
+<h1 class="center">Ma liste Angular de pokémon !</h1>
+
+<div class="container">
+    <div class="row">
+        <div *ngFor="let pokemon of pokemonList" class="col m4 s6">
+            <div class="card horizontal">
+                <div class="card-image">
+                <img src={{pokemon.picture}}/>
+            </div>
+            
+            <div class="card-stacked">
+                <span class="card-title">{{ pokemon.name }}</span>
+                <p><small>{{ pokemon.created }}</small></p>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 <input
     #input
-    (keyup)="selectPokemon(input.value)"
+    (keyup.enter)="selectPokemon(input.value)"
     type="string"
 />
-<p>{{ pokemonSelected?.name }}</p>
+<p *ngIf="pokemonSelected">C'est {{ pokemonSelected?.name }} !</p>
+<p *ngIf="!pokemonSelected">Selectionne un numéro de pokémon valide !</p>
 
+<!-- <div *ngFor="let pokemon of pokemonList" class="row">
+    <div class="col s12 m5">
+        <div class="card small">
+    <img src={{pokemon.picture}}/>
+    <div class="right">
+        <span class="card-title">{{ pokemon.name }}</span>
+        <p>{{ pokemon.created }}</p>
+    </div>
+</div> -->
+
+<!-- 
 <p>{{ pokemonList[0].name }}</p>
 <p>{{ pokemonList[1].name }}</p>
 <p>{{ pokemonList[2].name }}</p>
@@ -18,5 +48,5 @@
 <p>{{ pokemonList[8].name }}</p>
 <p>{{ pokemonList[9].name }}</p>
 <p>{{ pokemonList[10].name }}</p>
-<p>{{ pokemonList[11].name }}</p>
+<p>{{ pokemonList[11].name }}</p> -->
 
