@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { ListPokemonComponent } from './list-pokemon/list-pokemon.component';
-import { DetailPokemonComponent } from './detail-pokemon/detail-pokemon.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+
 
 export const routes: Routes = [
-    { path: 'pokemon', component: ListPokemonComponent },
-    { path: 'pokemon/:id', component: DetailPokemonComponent  },
+    { path: 'pokemon', loadComponent: () => import('./list-pokemon/list-pokemon.component').then(module => module.ListPokemonComponent) },
+    { path: 'pokemon/:id', loadComponent: () => import('./detail-pokemon/detail-pokemon.component').then(module => module.DetailPokemonComponent)  },
     { path: '', redirectTo: 'pokemon', pathMatch: 'full'},
-    { path: '**', component: PageNotFoundComponent}
+    { path: '**', loadComponent: () => import('./page-not-found/page-not-found.component').then(module => module.PageNotFoundComponent) }
 ];
+
+//loadComponent: () => import('./login/login.component').then(module => module.LoginComponent) <======== Here module are ts module (!= ng module)

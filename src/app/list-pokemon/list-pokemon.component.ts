@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { CommonModule} from '@angular/common';
+import { NgIf, NgFor, DatePipe} from '@angular/common';
 
 import { BorderCardDirective } from '../border-card.directive';
 import { PokemonTypeColorPipe } from '../pokemon-type-color.pipe';
@@ -10,7 +10,7 @@ import { Pokemon } from '../pokemon';
 @Component({
   selector: 'app-list-pokemon',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, BorderCardDirective, PokemonTypeColorPipe],
+  imports: [RouterOutlet, DatePipe, NgFor, NgIf, BorderCardDirective, PokemonTypeColorPipe],
   templateUrl: './list-pokemon.component.html',
 })
 

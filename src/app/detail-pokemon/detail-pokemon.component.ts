@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { POKEMONS } from '../mock-pokemon-list';
@@ -9,7 +9,7 @@ import { PokemonTypeColorPipe } from '../pokemon-type-color.pipe';
 @Component({
   selector: 'app-detail-pokemon',
   standalone: true,
-  imports: [ CommonModule, PokemonTypeColorPipe ],
+  imports: [ DatePipe, NgFor, NgIf, PokemonTypeColorPipe ],
   templateUrl: './detail-pokemon.component.html',
   styles: ``
 })
