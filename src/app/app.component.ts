@@ -5,13 +5,14 @@ import {CommonModule} from '@angular/common';
 
 import { POKEMONS } from './mock-pokemon-list';
 import { Pokemon } from './pokemon';
+import { BorderCardDirective } from './border-card.directive';
 
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, BorderCardDirective],
   templateUrl: './app.component.html',
   // styles: [],
 })
