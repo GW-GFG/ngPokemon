@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
-import { POKEMONS } from '../mock-pokemon-list';
 import { Pokemon } from '../pokemon';
-import { PokemonTypeColorPipe } from '../pokemon-type-color.pipe';
+import { PokemonTypeColorPipe } from '../../pokemon-type-color.pipe';
+import { PokemonService } from '../pokemon.service';
+
 
 @Component({
   selector: 'app-detail-pokemon',
@@ -19,22 +21,28 @@ export class DetailPokemonComponent implements OnInit {
   pokemonList: Pokemon[];
   pokemon: Pokemon | undefined ;
 
-  constructor(private route: ActivatedRoute, private router: Router) {
-
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router, 
+    private title: Title, 
+    private pokemonService: PokemonService) {
   }
+
   ngOnInit(): void {
 
-    this.pokemonList = POKEMONS;
+    this.pokemonList = this.pokemonService.getPokemonList();
     
     const pokemonId: string | null = this.route.snapshot.paramMap.get('id');
 
     if(pokemonId) {
-      this.pokemon = this.pokemonList.find(pokemon => pokemon.id == +pokemonId);
+      this.pokemon = this.pokemonService.getPokemonById(+pokemonId);
+      console.log(this.pokemonService.getPokemonTypeList());
     } 
     // else {
     //   this.pokemon = undefined;
     // }
   }
+
 
   goToPokemonList() {
     this.router.navigate(['/pokemon']);
