@@ -4,7 +4,6 @@ import { NgIf, NgFor, DatePipe} from '@angular/common';
 
 import { BorderCardDirective } from '../border-card.directive';
 import { PokemonTypeColorPipe } from '../../pokemon-type-color.pipe';
-import { POKEMONS } from '../mock-pokemon-list';
 import { Pokemon } from '../pokemon';
 import { PokemonService } from '../pokemon.service';
 

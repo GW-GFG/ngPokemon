@@ -4,9 +4,12 @@ import { Injectable } from '@angular/core';
 import { POKEMONS } from './mock-pokemon-list';
 import { Pokemon } from './pokemon';
 //Instance unique
+
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class PokemonService {
 
   getPokemonList(): Pokemon[] {

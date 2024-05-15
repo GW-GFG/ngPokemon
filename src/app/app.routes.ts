@@ -2,9 +2,8 @@ import { Routes } from '@angular/router';
 
 
 export const routes: Routes = [
-    { path: 'pokemon', title: 'PokeListe', loadComponent: () => import('./pokemon/list-pokemon/list-pokemon.component').then(module => module.ListPokemonComponent) },
-    { path: 'pokemon/:id', title: 'Details', loadComponent: () => import('./pokemon/detail-pokemon/detail-pokemon.component').then(module => module.DetailPokemonComponent)  },
     { path: '', redirectTo: 'pokemon', pathMatch: 'full'},
+    { path: '', loadChildren: () => import('./pokemon/pokemon.routes').then(module => module.pokemonRoutes)},
     { path: '**', title: 'Page inexistante', loadComponent: () => import('./page-not-found/page-not-found.component').then(module => module.PageNotFoundComponent) }
 ];
 
