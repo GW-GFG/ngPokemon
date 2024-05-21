@@ -16,15 +16,20 @@ import { PokemonService } from '../pokemon.service';
 
 export class ListPokemonComponent implements OnInit {
   
-  pokemonList: Pokemon[];
+  pokemonList: Pokemon[] = [];
 
   constructor(
     private router: Router,
     private pokemonService: PokemonService
   ) {}
 
-  ngOnInit() {
-    this.pokemonList = this.pokemonService.getPokemonList();
+
+  ngOnInit(): void {
+    this.pokemonService.getPokemonList(1, 16).subscribe(
+      (data: Pokemon[]) => {
+        this.pokemonList = data;
+      }
+    );
   }
 
   goToPokemon(pokemon: Pokemon) {
