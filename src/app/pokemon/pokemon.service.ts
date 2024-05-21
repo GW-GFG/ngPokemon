@@ -35,9 +35,9 @@ export class PokemonService {
             id: pokemonId,
             hp: tempPokemonData.stats[0].base_stat,
             cp: tempPokemonData.stats[1].base_stat,
-            name: tempPokemonData.name,
+            name: tempPokemonData.name[0].toUpperCase() + tempPokemonData.name.slice(1),
             picture: tempPokemonData.sprites.front_default,
-            types: tempPokemonData.types.map((typeData: any) => typeData.type.name),
+            types: tempPokemonData.types.map((typeData: any) => typeData.type.name[0].toUpperCase() + typeData.type.name.slice(1)),
             created: new Date()
           };
           console.log('My interface contains : ' + pokemon)
