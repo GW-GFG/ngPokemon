@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Pokemon } from '../pokemon';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { PokemonService } from '../pokemon.service';
 import { NgIf } from '@angular/common';
 import { PokemonFormComponent } from "../pokemon-form/pokemon-form.component";
@@ -23,6 +23,7 @@ export class EditPokemonComponent implements OnInit{
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private pokemonService: PokemonService
   ) { }
 
@@ -32,6 +33,13 @@ export class EditPokemonComponent implements OnInit{
       this.pokemon = this.pokemonService.getPokemonById(+pokemonId);
     } else {
       this.pokemon = undefined;
+    }
+  }
+
+  savePokemonUpdate(): void {
+    if (this.pokemon) {
+      this.pokemonService.updatePokemon(this.pokemon);
+      this.router.navigate(['/pokemon-list']);
     }
   }
 }

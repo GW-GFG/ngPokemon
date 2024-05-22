@@ -51,6 +51,7 @@ export class PokemonFormComponent {
 
   onSubmit() {
     console.log('Submited');
+    this.pokemonService.updatePokemon(this.pokemon);
     this.router.navigate(['/pokemon', this.pokemon.id])
   }
 

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 // import { POKEMONS } from './mock-pokemon-list';
 import { Pokemon, PokemonInterface } from './pokemon';
 import { HttpClient } from '@angular/common/http';
-import { Observable, forkJoin, map } from 'rxjs';
+import { Observable, forkJoin, map, of } from 'rxjs';
 //Instance unique
 
 @Injectable({
@@ -20,6 +20,8 @@ export class PokemonService {
 
   getPokemonList(offset: number, limit: number): Observable<Pokemon[]> {
     // return POKEMONS;
+    if (this.pokemonList.length >= 15) return of(this.pokemonList);
+    
     const pokemonFetch: Observable<any>[] = [];
 
     for (let i: number = offset; i < limit; i++) {
@@ -48,6 +50,12 @@ export class PokemonService {
     )
   }
   
+  updatePokemon(pokemon: Pokemon): void {
+    const index = this.pokemonList.findIndex(pokemonData => pokemonData.id === pokemon.id);
+    if (index !== -1) {
+      this.pokemonList[index] = pokemon;
+    }
+  }
 
   getPokemonById(pokemonId: number): Pokemon | undefined {
     return this.pokemonList.find(pokemon => pokemon.id == pokemonId);
