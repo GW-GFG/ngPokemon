@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 
-import { POKEMONS } from './mock-pokemon-list';
+// import { POKEMONS } from './mock-pokemon-list';
 import { Pokemon, PokemonInterface } from './pokemon';
 import { HttpClient } from '@angular/common/http';
 import { Observable, forkJoin, map } from 'rxjs';
@@ -23,13 +23,13 @@ export class PokemonService {
     const pokemonFetch: Observable<any>[] = [];
 
     for (let i: number = offset; i < limit; i++) {
-      pokemonFetch.push(this.http.get<any>(`${this.pokeApiUrl}${i}`))
+      pokemonFetch.push(this.http.get<any>(`${this.pokeApiUrl}${i}`));
     }
 
     //First map is associated to RxJS on the pipe and the seconde is the JavaScript map
     return forkJoin(pokemonFetch).pipe(
       map((pokemonArray) => {
-        return pokemonArray.map((tempPokemonData, index) => {
+        this.pokemonList = pokemonArray.map((tempPokemonData, index) => {
           const pokemonId: number = offset + index;
           const pokemon: PokemonInterface = {
             id: pokemonId,
@@ -42,30 +42,20 @@ export class PokemonService {
           };
           console.log('My interface contains : ' + pokemon)
           return new Pokemon(pokemon);
-        })
+        });
+        return this.pokemonList;
       })
-      
     )
-    //   const pokemon: Pokemon = {
-    //     id: number = i,
-    //     hp: number = tempPokemonData.stats[0].base_stat,
-    //     cp: number = tempPokemonData.stats[1].base_stat,
-    //     name: string = tempPokemonData.name,
-    //     picture: string = tempPokemonData.sprite.front_default,
-    //     types: Array<string> = tempPokemonData.map((typeData: string) => typeData.type.name),
-    //     created: Date = new Date
-    // }
-
-    }
+  }
   
 
   getPokemonById(pokemonId: number): Pokemon | undefined {
-    return POKEMONS.find(pokemon => pokemon.id == pokemonId);
+    return this.pokemonList.find(pokemon => pokemon.id == pokemonId);
   }
 
   getPokemonTypeList(): string[] {
     const typeSet: Set<string> = new Set<string>();
-    POKEMONS.forEach(pokemon => {
+    this.pokemonList.forEach(pokemon => {
       const types: string[] = pokemon.types;
 
       types.forEach(type => {

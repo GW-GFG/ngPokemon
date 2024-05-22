@@ -13,7 +13,6 @@ import { PokemonService } from '../pokemon.service';
   standalone: true,
   imports: [ DatePipe, NgFor, NgIf, PokemonTypeColorPipe ],
   templateUrl: './detail-pokemon.component.html',
-  styles: ``
 })
 
 export class DetailPokemonComponent implements OnInit {
@@ -29,22 +28,13 @@ export class DetailPokemonComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-      this.pokemonService.getPokemonList(1, 16).subscribe(
-        (data: Pokemon[]) => {
-          this.pokemonList = data;
-        }
-      );
-    
+  console.log(this.route.snapshot.paramMap.get('id'))
     const pokemonId: string | null = this.route.snapshot.paramMap.get('id');
 
     if(pokemonId) {
       this.pokemon = this.pokemonService.getPokemonById(+pokemonId);
       console.log(this.pokemonService.getPokemonTypeList());
     } 
-    // else {
-    //   this.pokemon = undefined;
-    // }
   }
 
 
