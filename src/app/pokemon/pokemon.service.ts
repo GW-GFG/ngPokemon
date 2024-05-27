@@ -33,25 +33,12 @@ export class PokemonService {
       map((pokemonArray) => {
         this.pokemonList = pokemonArray.map((tempPokemonData, index) => {
           const pokemonId: number = offset + index;
-          const pokemon: PokemonInterface = {
-            id: pokemonId,
-            hp: tempPokemonData.stats[0].base_stat,
-            cp: tempPokemonData.stats[1].base_stat,
-            name: tempPokemonData.name[0].toUpperCase() + tempPokemonData.name.slice(1),
-            picture: tempPokemonData.sprites.front_default,
-            types: tempPokemonData.types.map((typeData: any) => typeData.type.name[0].toUpperCase() + typeData.type.name.slice(1)),
-            created: new Date()
-          };
-          console.log('My interface contains : ' + pokemon)
-          return new Pokemon(pokemon);
+          return new Pokemon(this.formatPokemonData(pokemonId, tempPokemonData));
         });
         return this.pokemonList;
       }),
-      tap(response => console.table(response)),
-      catchError(error => {
-        console.log(error);
-        return of([])
-      })
+      tap(response => this.logPkmn(response)),
+      catchError(error => this.handleError(error, []))
     )
   }
   
@@ -62,8 +49,48 @@ export class PokemonService {
     }
   }
 
-  getPokemonById(pokemonId: number): Pokemon | undefined {
-    return this.pokemonList.find(pokemon => pokemon.id == pokemonId);
+  //Create pokemon
+  private formatPokemonData(pokemonId: number, pokemonData: any): Pokemon {
+    const pokemon: PokemonInterface = {
+      id: pokemonId,
+      hp: pokemonData.stats[0].base_stat,
+      cp: pokemonData.stats[1].base_stat,
+      name: pokemonData.name[0].toUpperCase() + pokemonData.name.slice(1),
+      picture: pokemonData.sprites.front_default,
+      types: pokemonData.types.map((typeData: any) => typeData.type.name[0].toUpperCase() + typeData.type.name.slice(1)),
+      created: new Date()
+      };
+    return new Pokemon(pokemon);
+  }
+
+
+  // getPokemonById(pokemonId: number): Pokemon | undefined {
+  //   return this.pokemonList.find(pokemon => pokemon.id == pokemonId);
+  // }
+
+  getPokemonById(pokemonId: number): Observable<Pokemon | undefined> {
+    const pokemonFounded = this.pokemonList.find(pokemon => pokemon.id === pokemonId)
+    if (pokemonFounded) {
+    return of(this.pokemonList.find(pokemon => pokemon.id == pokemonId));
+    } else {
+      return this.http.get<Pokemon>(`${this.pokeApiUrl}/${pokemonId}`).pipe(
+        map(tempPokemonData => {
+          const pokemon = this.formatPokemonData(pokemonId, tempPokemonData);
+          this.pokemonList.push(pokemon);
+          return pokemon;
+        }),
+        catchError(error => this.handleError(error, undefined))
+      )
+    }
+  }
+
+  private logPkmn(response: Pokemon[] | Pokemon | undefined) {
+    console.log('logPkmn : ', JSON.stringify(response))
+  }
+
+  private handleError(error: Error, errorValue: any) {
+    console.error(error);
+    return of(errorValue);
   }
 
   getPokemonTypeList(): string[] {
@@ -76,7 +103,7 @@ export class PokemonService {
       });
     });
       
-    console.log('My array fromSet return : ', Array.from(typeSet))
+    console.log('My array fromSet return : ', JSON.stringify(Array.from(typeSet)))
     return Array.from(typeSet);
   }
 

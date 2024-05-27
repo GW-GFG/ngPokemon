@@ -32,8 +32,10 @@ export class DetailPokemonComponent implements OnInit {
     const pokemonId: string | null = this.route.snapshot.paramMap.get('id');
 
     if(pokemonId) {
-      this.pokemon = this.pokemonService.getPokemonById(+pokemonId);
-      console.log(this.pokemonService.getPokemonTypeList());
+      this.pokemonService.getPokemonById(+pokemonId).subscribe(pokemon => {
+      this.pokemon = pokemon
+      console.log(this.pokemonService.getPokemonTypeList())
+      })
     } 
   }
 
