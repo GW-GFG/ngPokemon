@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 // import { POKEMONS } from './mock-pokemon-list';
 import { Pokemon, PokemonInterface } from './pokemon';
 import { HttpClient } from '@angular/common/http';
-import { Observable, forkJoin, map, of } from 'rxjs';
+import { Observable, catchError, forkJoin, map, of, tap } from 'rxjs';
 //Instance unique
 
 @Injectable({
@@ -46,6 +46,11 @@ export class PokemonService {
           return new Pokemon(pokemon);
         });
         return this.pokemonList;
+      }),
+      tap(response => console.table(response)),
+      catchError(error => {
+        console.log(error);
+        return of([])
       })
     )
   }
